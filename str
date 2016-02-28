@@ -1,0 +1,206 @@
+//Jameson O'Connor
+//Brandan Nzukie
+
+import tester.*;
+
+
+//to represent a list of Strings
+interface ILoString { 
+
+
+    // return the first of this list
+    String getNext();
+
+    // merge this sorted list with that sorted list
+    ILoString merge(IStringCompare comp, ILoString that);
+
+    // merge this sorted ILoString with that sorted ConsLoString
+    ILoString mergeCons(IStringCompare comp, ConsLoString that);
+
+    // sort this list according to the given comparator
+    ILoString sort(IStringCompare comp);
+
+    // insert the given string into its rightful place in the list
+    ILoString insert(IStringCompare comp, String str);
+
+    // is this list sorted according to the given comparator?
+    boolean isSorted(IStringCompare comp);
+
+    // is this list a cons?
+    boolean isCons();
+
+    // is this list the same as that one?
+    boolean isSameList(ILoString that);
+
+    // is this list the same as that empty list?
+    boolean isSameMtList(MtLoString that);
+
+    // is this list the same as that cons list?
+    boolean isSameConsList(ConsLoString that);
+
+
+}
+
+
+interface IStringCompare {
+
+    // does String 1 come before String 2?
+    boolean comesBefore(String s1, String s2);
+}
+
+
+
+
+//to represent an empty list of Strings
+class MtLoString implements ILoString {
+    MtLoString() { }
+
+    // return the first of this list
+    public String getNext() {
+        return "";
+    }
+
+    // merge this sorted list with that sorted list
+    public ILoString merge(IStringCompare comp, ILoString that) {
+        return new MtLoString();
+    }
+
+    // merge this sorted ILoString with that sorted ConsLoString
+    public ILoString mergeCons(IStringCompare comp, ConsLoString that) {
+        return new MtLoString();
+    }
+
+    // sort this list according to the given comparator
+    public ILoString sort(IStringCompare comp) {
+        return new MtLoString();
+    }
+
+    // insert the given string into its rightful place in the list
+    public ILoString insert(IStringCompare comp, String str) {
+        return new MtLoString();
+    }
+
+    // is this list sorted according to the given comparator?
+    public boolean isSorted(IStringCompare comp) {
+        return true;
+    }
+
+    // is this list a cons?
+    public boolean isCons() {
+        return false;
+    }
+
+    // is this list the same as that one?
+    public boolean isSameList(ILoString that) {
+        return that.isSameList(this);
+    }
+
+    // is this list the same as that empty list?
+    public boolean isSameMtList(MtLoString that) {
+        return true;
+    }
+
+
+    // is this list the same as that cons list?
+    public boolean isSameConsList(ConsLoString that) {
+        return false;
+    }    
+}
+
+
+
+//to represent a nonempty list of Strings
+class ConsLoString implements ILoString {
+    String first;
+    ILoString rest;
+
+    ConsLoString(String first, ILoString rest){
+        this.first = first;
+        this.rest = rest;  
+    }
+    
+ // return the first of this list
+    public String getNext() {
+        return this.first;
+    }
+
+    // merge this sorted list with that sorted list
+    public ILoString merge(IStringCompare comp, ILoString that) {
+        return that.mergeCons(comp, this);
+    }
+
+    // merge this sorted ILoString with that sorted ConsLoString
+    public ILoString mergeCons(IStringCompare comp, ConsLoString that) {
+        if (comp.comesBefore(this.first, that.first)) {
+            return new ConsLoString(this.first, this.rest.merge(comp, that));
+        }
+        else {
+            return new ConsLoString(that.first, that.rest.merge(comp, this));
+        }   
+    }
+
+    // sort this list according to the given comparator
+    public ILoString sort(IStringCompare comp) {
+        return this.sort(comp).insert(comp, this.first);
+    }
+
+    // insert the given string into its rightful place in the list
+    public ILoString insert(IStringCompare comp, String str) {
+        if (comp.comesBefore(this.getNext(), str)) {
+            return new ConsLoString(this.first, this.rest.insert(comp, str));
+        }
+        else {
+            return new ConsLoString(str,this);
+        }
+    }
+
+    // is this list sorted according to the given comparator?
+    public boolean isSorted(IStringCompare comp) {
+        if (this.rest.isCons()) {
+            return comp.comesBefore(this.first, this.rest.getNext()) &&
+                    this.rest.isSorted(comp);
+        }
+        else {
+            return true;
+        }
+
+    }
+
+    // is this list a cons?
+    public boolean isCons() {
+        return true;
+    }
+
+    // is this list the same as that one?
+    public boolean isSameList(ILoString that) {
+        return that.isSameConsList(this);
+    }
+
+    // is this list the same as that empty list?
+    public boolean isSameMtList(MtLoString that) {
+        return false;
+    }
+
+
+    // is this list the same as that cons list?
+    public boolean isSameConsList(ConsLoString that) {
+        return this.first.equals(that.first) && this.rest.isSameList(that.rest);
+    }   
+} 
+
+
+class StringLexComp implements IStringCompare {
+
+    // does String 1 come before String 2?
+    public boolean comesBefore(String s1, String s2) {
+        
+    }
+}
+
+class StringLengthComp implements IStringCompare {
+
+    // does String 1 come before String 2?
+    public boolean comesBefore(String s1, String s2)
+
+
+}
