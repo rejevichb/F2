@@ -387,6 +387,9 @@ class ForbiddenIslandWorld extends World {
     }
     
     
+    
+    
+    
     // assign neighbors to created cells in the array
     void neighborCells() {
         for (ArrayList<Cell> loC : cellArray) {
