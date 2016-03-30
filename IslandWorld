@@ -11,18 +11,8 @@ import tester.*;
 import javalib.impworld.*;
 import javalib.worldimages.*;
 
-
-
-
 /////////////////////////////
-interface IMutableFunc<T> {
-    void apply(T t);
-    }
 
-interface IMutableFunc2<T, U> {
-    //need for function object FOLDR
-    U apply(T t, U u);
-    }
 
 interface IList<T> {
 
@@ -124,13 +114,6 @@ class Cons<T> implements IList<T> {
 
 
 
-
-
-
-
-
-
-
 //Represents a single square of the game area
 class Cell {
 
@@ -161,15 +144,6 @@ class Cell {
                 this.top.isFlooded || this.bottom.isFlooded;
     }
 
-    //floodCell when the waterLevel is more than the height of the cell
-    void floodCell(int waterLevel) {
-        if (!isFlooded && this.isCoastline() && waterLevel > this.height) {
-            this.isFlooded = true;
-        }
-        else { 
-          //Don't know what to do here
-        }
-    }
     
     
     //draws cells on world and controls color based on height 
@@ -385,9 +359,6 @@ class ForbiddenIslandWorld extends World {
             }
         } 
     }
-    
-    
-    
     
     
     // assign neighbors to created cells in the array
